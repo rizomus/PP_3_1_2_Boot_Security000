@@ -46,9 +46,4 @@ public class UserService  implements UserDetailsService {
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
     }
 
-    @Transactional
-    public void register(User user) {
-        userRepository.save(user);
-
-    }
 }

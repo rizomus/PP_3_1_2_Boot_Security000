@@ -33,17 +33,7 @@ public class MainController {
     }    @GetMapping("/admin")
     public String adminPage(Principal principal, Model model) {
         User user = userService.findByUsername(principal.getName());
-        System.out.println("        *********  ROLES: " + user.getRoles());
         return "admin";
-    }
-
-
-    @GetMapping("/register")
-    public String registerPage(@RequestParam String name, @RequestParam String password, @RequestParam String email,  @RequestParam String role, Model model) {
-
-        User user = new User(name, password, email);
-        userService.register(user);
-        return "/";
     }
 
 }
