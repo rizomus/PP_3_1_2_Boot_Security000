@@ -21,11 +21,16 @@ public class User {
 
     private String username;
 
+    private int age;
+
     private String password;
 
     private String email;
 
-    @ManyToMany()
+    @ManyToMany
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_name"))
     private Collection<Role> roles;
 
 }

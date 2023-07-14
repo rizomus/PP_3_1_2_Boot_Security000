@@ -9,12 +9,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.entities.Role;
+import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +23,8 @@ public class UserService  implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -46,4 +49,47 @@ public class UserService  implements UserDetailsService {
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<User> allUsers() {
+        return userRepository.findAll();
+    }
+
+
+    @Transactional(readOnly = true)
+    public Optional<User> show(long id) {
+        return userRepository.findById(id);
+    }
+
+
+    @Transactional
+    public void save(User user) {
+//        user.setRoles(List.of(new Role("ROLE_USER")));
+        userRepository.saveAndFlush(user);
+    }
+
+
+    @Transactional
+    public void update(long id, User updatedUser) {
+
+        User userToBeUpdated = userRepository.findById(id).get();
+        userToBeUpdated = updatedUser;
+        userRepository.save(userToBeUpdated);
+
+    }
+
+
+    @Transactional
+    public void deleteById(long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Transactional
+    public List<User> findAll() {
+       return userRepository.findAll();
+    }
+
+    @Transactional
+    public Optional<User> findById(long id) {
+        return userRepository.findById(id);
+    }
 }

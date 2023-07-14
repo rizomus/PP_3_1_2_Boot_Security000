@@ -4,16 +4,20 @@
     <title>Spring Security Example</title>
 </head>
 <body>
-<h1>User,
-    <p></p>
-    welcome spring boot security page!</h1>
 
 <p th:text="${user.getUsername() + ', ' + user.getAge()}">VALUE</p>
 <p th:text="${'Email: ' + user.getEmail()}">VALUE</p>
 
 <p></p>
+
+<a th:href="@{{id}/edit(id=${user.getId()})}">Edit</a>
+
+<p></p>
 <a href="/logout">LOGOUT</a>
 
+<p></p>
+<form th:method="POST" th:action="@{/admin/delete/{id}(id=${user.getId()})}">
+    <input type="submit" value="Delete"/>
 </form>
 
 </body>
